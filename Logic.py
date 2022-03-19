@@ -4,7 +4,8 @@ import pygame
 from pygame.locals import *
 from Params import *
 
-def flappygame(framepersecond_clock):
+def flappygame():
+	framepersecond_clock = pygame.time.Clock()
 	your_score = 0
 	horizontal = int(window_width/5)
 	vertical = int(window_width/2)
@@ -159,3 +160,13 @@ def createPipe():
 		{'x': pipeX, 'y': y2}
 	]
 	return pipe
+
+
+def frozenFrame():
+	framepersecond_clock = pygame.time.Clock()
+	window.blit(game_images['background'], (0, 0))
+	window.blit(game_images['flappybird'],
+				(horizontal, vertical))
+	window.blit(game_images['sea_level'], (ground, elevation))
+	pygame.display.update()
+	framepersecond_clock.tick(framepersecond)
