@@ -21,18 +21,18 @@ elevation = window_height * 0.8
 
 # Game Images
 game_images = {
-    'scoreimages': (
-        pygame.image.load('images/0.png').convert_alpha(),
-        pygame.image.load('images/1.png').convert_alpha(),
-        pygame.image.load('images/2.png').convert_alpha(),
-        pygame.image.load('images/3.png').convert_alpha(),
-        pygame.image.load('images/4.png').convert_alpha(),
-        pygame.image.load('images/5.png').convert_alpha(),
-        pygame.image.load('images/6.png').convert_alpha(),
-        pygame.image.load('images/7.png').convert_alpha(),
-        pygame.image.load('images/8.png').convert_alpha(),
-        pygame.image.load('images/9.png').convert_alpha()
-    ),
+    # 'scoreimages': (
+    #     pygame.image.load('images/0.png').convert_alpha(),
+    #     pygame.image.load('images/1.png').convert_alpha(),
+    #     pygame.image.load('images/2.png').convert_alpha(),
+    #     pygame.image.load('images/3.png').convert_alpha(),
+    #     pygame.image.load('images/4.png').convert_alpha(),
+    #     pygame.image.load('images/5.png').convert_alpha(),
+    #     pygame.image.load('images/6.png').convert_alpha(),
+    #     pygame.image.load('images/7.png').convert_alpha(),
+    #     pygame.image.load('images/8.png').convert_alpha(),
+    #     pygame.image.load('images/9.png').convert_alpha()
+    # ),
     # 'flappybird': pygame.transform.scale(pygame.image.load('images/bird.png').convert_alpha(), (70,50)),
     'flappybird': pygame.image.load('images/bird.png').convert_alpha(),
     'sea_level': pygame.image.load('images/base.jfif').convert_alpha(),

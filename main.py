@@ -7,6 +7,7 @@ if __name__ == "__main__":
 
 	# For initializing modules of pygame library
 	pygame.init()
+	pygame.font.init()
 
 	# Sets the title on top of game window
 	pygame.display.set_caption(title)
@@ -28,9 +29,9 @@ if __name__ == "__main__":
 
 			# Player can start playing by pressing space or up arrow key
 			elif event.type == KEYDOWN and (event.key == K_SPACE or event.key == K_UP):
-				flappygame()
+				game()
 
 			# if user doesn't press any key we show the frozen frame
 			else:
-				Draw()
+				draw()
 
