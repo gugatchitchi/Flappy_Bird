@@ -1,8 +1,5 @@
-# Import module
-# import syso
 import pygame
 from pygame.locals import *
-# from Params import *
 from Logic import *
 
 # program where the game starts
@@ -18,22 +15,22 @@ if __name__ == "__main__":
 	print("WELCOME TO THE FLAPPY BIRD GAME")
 	print("Press space or enter to start the game")
 
-	# Here starts the main game
+	# Waiting for user to start the game
 	while True:
 
-		while True:
-			for event in pygame.event.get():
+		# Catching events from user
+		for event in pygame.event.get():
 
-				# if user clicks on cross button or escape key, the window will close
-				if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
-					pygame.quit()
-					sys.exit()
+			# if user clicks on cross button or escape key, the window will close
+			if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
+				pygame.quit()
+				sys.exit()
 
-				# Player can start playing by pressing space or up arrow key
-				elif event.type == KEYDOWN and (event.key == K_SPACE or event.key == K_UP):
-					flappygame()
+			# Player can start playing by pressing space or up arrow key
+			elif event.type == KEYDOWN and (event.key == K_SPACE or event.key == K_UP):
+				flappygame()
 
-				# if user doesn't press any key we show the frozen frame
-				else:
-					frozenFrame()
+			# if user doesn't press any key we show the frozen frame
+			else:
+				Draw()
 
