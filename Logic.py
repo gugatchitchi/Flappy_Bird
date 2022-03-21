@@ -43,9 +43,6 @@ def game():
 		pipes = pipes_iteration(pipes)
 		score += update_score(pipes, bird)
 
-		# print(len(pipes))
-
-
 		# We redraw the window here
 		draw(bird.X, bird.Y, pipes, score)
 
@@ -105,7 +102,7 @@ def update_score(pipes, bird):
 	for pipe in pipes:
 		# Check left side of the bird, if it was inside pipes left and right X coordinates
 		# one iteration ago, and now it has passed it, that means bird gets a score
-		if pipe.X + pipe_width <= bird.X <= pipe.X + pipe_width + pipe_velocity:
+		if pipe.X + pipe_width <= bird.X < pipe.X + pipe_width + pipe_velocity:
 				return 1
 
 	# If it not the case score stays the same
