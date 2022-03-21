@@ -2,8 +2,8 @@ from Params import *
 
 class Bird:
   def __init__(self):
-    self.X = horizontal
-    self.Y = vertical
+    self.X = bird_initial_X
+    self.Y = bird_initial_Y
     self.velocity = bird_min_velocity
 
   # When users input is detected we try to decrease birds velocity
@@ -23,10 +23,7 @@ class Bird:
     else:
       self.velocity += gravity_velocity_change
 
-    self.updateCoordinates()
-
-  # Updates coordinates of the bird
-  # This will be called in the "fall" function as it is
-  # called after each frame/itteration
-  def updateCoordinates(self):
+    # We Update coordinates here as this function will be called
+    # after each frame/iteration
     self.Y += self.velocity
+

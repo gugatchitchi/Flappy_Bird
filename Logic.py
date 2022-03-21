@@ -4,15 +4,20 @@ import pygame
 from pygame.locals import *
 from Params import *
 from Bird_Class import Bird
+from Pipe_Class import Pipe
 
 def flappygame():
-	# Initialize clock to control FPS of the gam
-	# framepersecond_clock = pygame.time.Clock()
-
 	# Set the score of the game to 0
 	your_score = 0
 
+	# Create bird from bird class
 	bird = Bird()
+
+	# Pipes
+	# pipes  = Pipe()
+	pipes = [Pipe()]
+	for i in range(9):
+		pipes.append(Pipe(pipes[-1].X))
 
 	# horizontal = int(window_width/5)
 	# vertical = int(window_width/2)
@@ -50,22 +55,29 @@ def flappygame():
 
 	# bird_flap_velocity = -8
 	# bird_flapped = False
+
+	# The loop of the game starts here
 	while True:
+
+		# if user clicks on cross button or escape key, the window will close
 		for event in pygame.event.get():
 			if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
 				pygame.quit()
 				sys.exit()
+
+			# Player makes the bird go upwards (flap) by pressing space or upper_arrow
 			if event.type == KEYDOWN and (event.key == K_SPACE or event.key == K_UP):
-				# print('Flap')
 				bird.flap()
-				# print('Flapped: ' + str(bird.X) + str(bird.Y))
-				# if vertical > 0:
-				# 	bird_velocity_y = bird_flap_velocity
-				# 	bird_flapped = True
 
+		# After each itteretion/frame bird falls down and screen is redrawn
 		bird.fall()
-		Draw(bird.X, bird.Y)
+		pipes_iteration(pipes)
 
+		# We redraw the window
+		Draw(bird.X, bird.Y, pipes)
+
+		# Breaks the loop of player lost the game
+		if check_colission(bird, pipes): break
 
 
 		# This function will return true
@@ -143,49 +155,89 @@ def flappygame():
 		# framepersecond_clock.tick(framepersecond)
 
 
-def isGameOver(horizontal, vertical, up_pipes, down_pipes):
-	if vertical > elevation - 25 or vertical < 0:
+# def isGameOver(horizontal, vertical, up_pipes, down_pipes):
+# 	if vertical > elevation - 25 or vertical < 0:
+# 		return True
+#
+# 	for pipe in up_pipes:
+# 		pipeHeight = game_images['pipeimage'][0].get_height()
+# 		if(vertical < pipeHeight + pipe['y'] and\
+# 		abs(horizontal - pipe['x']) < game_images['pipeimage'][0].get_width()):
+# 			return True
+#
+# 	for pipe in down_pipes:
+# 		if (vertical + game_images['flappybird'].get_height() > pipe['y']) and\
+# 		abs(horizontal - pipe['x']) < game_images['pipeimage'][0].get_width():
+# 			return True
+# 	return False
+
+
+# def createPipe():
+# 	offset = window_height/3
+# 	pipeHeight = game_images['pipeimage'][0].get_height()
+# 	y2 = offset + \
+# 		random.randrange(
+# 			0, int(window_height - game_images['sea_level'].get_height() - 1.2 * offset))
+# 	pipeX = window_width + 10
+# 	y1 = pipeHeight - y2 + offset
+# 	pipe = [
+# 		# upper Pipe
+# 		{'x': pipeX, 'y': -y1},
+#
+# 		# lower Pipe
+# 		{'x': pipeX, 'y': y2}
+# 	]
+# 	return pipe
+
+def check_colission(bird, pipes):
+	# Check if bid crossed top and bottom boundaries
+	if bird.Y < 0 or bird.Y > elevation:
 		return True
 
-	for pipe in up_pipes:
-		pipeHeight = game_images['pipeimage'][0].get_height()
-		if(vertical < pipeHeight + pipe['y'] and\
-		abs(horizontal - pipe['x']) < game_images['pipeimage'][0].get_width()):
-			return True
+	# Check if bird collided into one of the pipes
+	for pipe in pipes:
 
-	for pipe in down_pipes:
-		if (vertical + game_images['flappybird'].get_height() > pipe['y']) and\
-		abs(horizontal - pipe['x']) < game_images['pipeimage'][0].get_width():
-			return True
-	return False
+		# Check left side of the bird, if it is inside pipes left and right X coordinates
+		# and birds Y coordinates crossed pipes Y coordinates that means objects have collided
+		if bird.X >= pipe.X and bird.X <= pipe.X + pipe_width:
+			if bird.Y <= pipe.gap_Y or bird.Y + bird_height >= pipe.gap_Y + pipe_gap:
+				return True
+
+		# Check right side of the bird, if it is inside pipes left and right X coordinates
+		# and birds Y coordinates crossed pipes Y coordinates that means objects have collided
+		if bird.X + bird_width >= pipe.X and bird.X + bird_width <= pipe.X + pipe_width:
+			if bird.Y <= pipe.gap_Y or bird.Y + bird_height >= pipe.gap_Y + pipe_gap:
+				return True
 
 
-def createPipe():
-	offset = window_height/3
-	pipeHeight = game_images['pipeimage'][0].get_height()
-	y2 = offset + \
-		random.randrange(
-			0, int(window_height - game_images['sea_level'].get_height() - 1.2 * offset))
-	pipeX = window_width + 10
-	y1 = pipeHeight - y2 + offset
-	pipe = [
-		# upper Pipe
-		{'x': pipeX, 'y': -y1},
+def pipes_iteration(pipes):
 
-		# lower Pipe
-		{'x': pipeX, 'y': y2}
-	]
-	return pipe
+	# Move each pipe
+	for pipe in pipes:
+		pipe.move()
+
+	# Filter pipes which left the window
+	filter(lambda pipe: pipe.X + game_images['pipeimage'][0].get_width() > 0, pipes)
+
+	# Add new pipes to the list if the count is less than 10
+	if len(pipes) < 10: pipes.append(Pipe(pipes[-1].X))
 
 
 # This function paints the background and bird on the screen
 # Until the player enters necessary key to start the game
 # Bird will be frozen in one place.
-def Draw(bird_x = horizontal, bird_y = vertical):
+def Draw(bird_x = bird_initial_X, bird_y = bird_initial_Y, pipes = None):
+
 	# Add images on the window
 	window.blit(game_images['background'], (0, 0))
 	window.blit(game_images['sea_level'], (ground, elevation))
 	window.blit(game_images['flappybird'], (bird_x, bird_y))
+
+	if pipes is not None:
+		for pipe in pipes:
+			window.blit(game_images['pipeimage'][0], (pipe.X, pipe.get_Y_coordinates()[0]))
+			window.blit(game_images['pipeimage'][1], (pipe.X, pipe.get_Y_coordinates()[1]))
+
 	# Update the window
 	pygame.display.update()
 	framepersecond_clock.tick(framepersecond)

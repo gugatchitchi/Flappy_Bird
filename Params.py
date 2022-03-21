@@ -2,7 +2,7 @@ import pygame
 
 # Window Variables
 window_width = 600
-window_height = 499
+window_height = 500
 framepersecond = 30
 title = 'Flappy Bird Game !'
 
@@ -11,10 +11,6 @@ window = pygame.display.set_mode((window_width, window_height))
 
 # FPS
 framepersecond_clock = pygame.time.Clock()
-
-# Set birds placement
-horizontal = int(window_width/5)
-vertical = int(window_width/2)
 
 # Where the ground starts
 ground = 0
@@ -37,25 +33,56 @@ game_images = {
         pygame.image.load('images/8.png').convert_alpha(),
         pygame.image.load('images/9.png').convert_alpha()
     ),
+    # 'flappybird': pygame.transform.scale(pygame.image.load('images/bird.png').convert_alpha(), (70,50)),
     'flappybird': pygame.image.load('images/bird.png').convert_alpha(),
     'sea_level': pygame.image.load('images/base.jfif').convert_alpha(),
-    'background': pygame.image.load('images/background.jpg').convert_alpha(), 'pipeimage': (
+    'background': pygame.image.load('images/background.jpg').convert_alpha(),
+    'pipeimage': (
         pygame.transform.rotate(pygame.image.load('images/pipe.png').convert_alpha(), 180),
         pygame.image.load('images/pipe.png').convert_alpha())
 }
 
 
+# =============================================================================
+# This sections describes information about the bird:
+# =============================================================================
+# Set birds placement
+bird_initial_X = int(window_width/5)
+bird_initial_Y = int(window_width/2)
 
-# This sections describes how birds velocity should
-# be changed and what is their upper and lower bounds
-
-# How much bird "jumps" after users input
-# flap_velocity_change = 10
-# How much gravity affects bird
+# How much gravity affects bird in each iteration/frame
 gravity_velocity_change = 1
-# What is the speed limit of the birs for each dirrection
-bird_max_velocity = 10
+
+# What is the speed limit of the birds for each direction
+bird_max_velocity = 20
 bird_min_velocity = -8
+
+# Birds width and height retrieved from the image
+bird_width = game_images['flappybird'].get_width()
+bird_height = game_images['flappybird'].get_height()
+
+
+# =============================================================================
+# This sections describes information about the pipes:
+# =============================================================================
+# Set the vertical gap size between pipes
+pipe_gap = 100
+
+# Where this gap can be on the screen
+# We set offset of 100px from upper and lower bounds
+offset = 100
+pipe_gap_y_min = offset
+pipe_gap_y_max = elevation - pipe_gap - offset
+
+# Lower and upper bounds for distances between pipes
+min_distance_between_pipes = 200
+max_distance_between_pipes = 250
+
+# How much gravity affects bird in each iteration/frame
+pipe_velocity = 5
+
+# pipe width retrieved from the image
+pipe_width = game_images['pipeimage'][0].get_width()
 
 
 
