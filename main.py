@@ -16,6 +16,9 @@ if __name__ == "__main__":
 	print("WELCOME TO THE FLAPPY BIRD GAME")
 	print("Press space or enter to start the game")
 
+	# Initilize max score as 0
+	max_score = 0
+
 	# Waiting for user to start the game
 	while True:
 
@@ -29,9 +32,10 @@ if __name__ == "__main__":
 
 			# Player can start playing by pressing space or up arrow key
 			elif event.type == KEYDOWN and (event.key == K_SPACE or event.key == K_UP):
-				game()
+				max_score = game(max_score)
+				print(max_score)
 
 			# if user doesn't press any key we show the frozen frame
 			else:
-				draw()
+				draw(max_score = max_score)
 

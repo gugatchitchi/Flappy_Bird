@@ -5,7 +5,7 @@ from Params import *
 from Bird_Class import Bird
 from Pipe_Class import Pipe
 
-def game():
+def game(max_score):
 
 	# ==========================
 	# Initialization of the game
@@ -44,10 +44,16 @@ def game():
 		score += update_score(pipes, bird)
 
 		# We redraw the window here
-		draw(bird.X, bird.Y, pipes, score)
+		draw(bird.X, bird.Y, pipes, score, max_score)
 
 		# This code breaks the loop of player lost the game
-		if check_colission(bird, pipes): break
+		if check_colission(bird, pipes):
+			# Update max score
+			if max_score > score:
+				return max_score
+			else:
+				return score
+
 
 
 # This function deals with collisions. It checks if bird left the window
@@ -113,21 +119,28 @@ def update_score(pipes, bird):
 # This function paints the background and bird on the screen
 # Until the player enters necessary key to start the game
 # Bird will be frozen in one place.
-def draw(bird_x = bird_initial_X, bird_y = bird_initial_Y, pipes = None, score = None):
+def draw(bird_x = bird_initial_X, bird_y = bird_initial_Y, pipes = None, score = None, max_score = 0):
 
 	# Add images on the window
 	window.blit(game_images['background'], (0, 0))
 	window.blit(game_images['sea_level'], (ground, elevation))
 	window.blit(game_images['flappybird'], (bird_x, bird_y))
 
+	# Draw Pipes
 	if pipes is not None:
 		for pipe in pipes:
 			window.blit(game_images['pipeimage'][0], (pipe.X, pipe.get_Y_coordinates()[0]))
 			window.blit(game_images['pipeimage'][1], (pipe.X, pipe.get_Y_coordinates()[1]))
 
 	# Display Score
-	font = pygame.font.SysFont('Comic Sans MS', 30)
-	text = font.render('Score: ' + str(score), False, (0, 0, 0))
+	if score is not None:
+		font = pygame.font.SysFont('Comic Sans MS', 15)
+		text = font.render('Score: ' + str(score), False, (0, 0, 0))
+		window.blit(text, (0,20))
+
+	# Display Max Score
+	font = pygame.font.SysFont('Comic Sans MS', 15)
+	text = font.render('Max Score: ' + str(max_score), False, (0, 0, 0))
 	window.blit(text, (0,0))
 
 	# Update the window
