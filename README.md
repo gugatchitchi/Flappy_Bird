@@ -2,6 +2,8 @@
 
 This is a remake of an iconic game "Flappy Bird". The project was done for educational purposes only.
 
+
+
 ## Description
 
 The game starts with the user input "space" or "upper arrow". These two inputs would be used later for controlling the birds velocity. Pressing one of the key would increase birds velocity by some X number and make the bird go up. As player tries to keep bird on the center pipes start emerging from the right side of the screen and the goal becomes to pass as many pipes as possible. The score is calculated based on how many pipes the bird has passsed.
