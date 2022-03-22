@@ -2,7 +2,7 @@
 
 This is a remake of an iconic game "Flappy Bird". The project was done for educational purposes only.
 
-
+![alt text](https://github.com/gugatchitchi/Flappy_Bird/blob/main/images/Screenshot.png?raw=true)
 
 ## Description
 
